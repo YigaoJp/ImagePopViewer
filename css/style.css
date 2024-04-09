@@ -1,3 +1,8 @@
+:root {
+  --ipv_bg_color: rgba(0,0,0, .7);
+  --ipv_close_btn: rgba(70, 99, 197, 0.7);
+}
+
 body {
   width: 100%;
   margin: 0;
@@ -13,7 +18,7 @@ body {
 #ipv_bg {
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--ipv_bg_color);
   position: fixed;
   top: 0;
   left: 0;
@@ -51,17 +56,78 @@ body {
   right: 0;
   bottom: 0;
 }
+#ipv_bg #ipv_right_btn {
+  width: 80px;
+  height: 80px;
+  padding: 0.1em;
+  background: var(--ipv_bg_color);
+  background-image: url("./../images/ipv_right_btn.svg");
+  background-repeat: no-repeat;
+  background-size: 60px;
+  background-position: center center;
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% - 40px);
+  right: calc(5% - 40px);
+  opacity: 1;
+  z-index: 9810;
+  transition: 0.5s;
+  cursor: pointer;
+}
+@media screen and (max-width: 640px) {
+  #ipv_bg #ipv_right_btn {
+    width: 64px;
+    height: 64px;
+    background-size: 48px;
+    top: calc(50% - 32px);
+    right: calc(10% - 32px);
+  }
+}
+#ipv_bg #ipv_right_btn.Hide {
+  opacity: 0;
+  transition: 0.5s;
+}
+#ipv_bg #ipv_left_btn {
+  width: 80px;
+  height: 80px;
+  padding: 0.1em;
+  background: var(--ipv_bg_color);
+  background-image: url("./../images/ipv_left_btn.svg");
+  background-repeat: no-repeat;
+  background-size: 60px;
+  background-position: center center;
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% - 40px);
+  left: calc(5% - 40px);
+  opacity: 1;
+  z-index: 9810;
+  transition: 0.5s;
+  cursor: pointer;
+}
+@media screen and (max-width: 640px) {
+  #ipv_bg #ipv_left_btn {
+    width: 64px;
+    height: 64px;
+    background-size: 48px;
+    top: calc(50% - 32px);
+    left: calc(10% - 32px);
+  }
+}
+#ipv_bg #ipv_left_btn.Hide {
+  opacity: 0;
+  transition: 0.5s;
+}
 #ipv_bg #ipv_close_btn {
-  font-family: monospace;
-  font-size: 12vw;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  font-size: 5em;
-  font-weight: bold;
-  color: white;
-  -webkit-text-stroke: 1px navy;
+  width: 80px;
+  height: 80px;
+  padding: 0.1em;
+  background: var(--ipv_bg_color);
+  background-image: url("./../images/ipv_close_btn.svg");
+  background-repeat: no-repeat;
+  background-size: 60px;
+  background-position: center center;
+  border-radius: 50%;
   position: absolute;
   top: 4%;
   left: 75%;
@@ -69,8 +135,21 @@ body {
   transition: 0.5s;
   cursor: pointer;
 }
+@media screen and (max-width: 1280px) {
+  #ipv_bg #ipv_close_btn {
+    left: auto;
+    right: 5%;
+  }
+}
+@media screen and (max-width: 640px) {
+  #ipv_bg #ipv_close_btn {
+    width: 64px;
+    height: 64px;
+    background-size: 48px;
+  }
+}
 #ipv_bg #ipv_close_btn:hover {
-  color: skyblue;
+  color: var(--ipv_close_btn);
   transition: 0.5s;
 }
 #ipv_bg #ipv_close_btn.Click {
@@ -109,7 +188,7 @@ body {
   content: "";
   width: 100%;
   height: 100%;
-  background-image: url(./../image/zoom.svg);
+  background-image: url("./../images/ipv_zoom.svg");
   background-repeat: no-repeat;
   background-position: right bottom;
   display: block;
@@ -119,16 +198,6 @@ body {
   right: 16px;
   bottom: 16px;
   background-size: 12%;
-}
-.ipv.Active {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 .ipv img {
   width: auto;
