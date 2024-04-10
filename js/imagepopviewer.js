@@ -10,6 +10,7 @@ $(function(){
   var index = 0;
   elem.each(function () {  
     ipvArray[index] = $(this).children('img').attr('src');
+    $(this).children('img').attr('id', "ipv_image" + index);
     index++;
   });
 
@@ -34,16 +35,10 @@ $(function(){
     $("#ipv_bg").append('<img src=\"' + ipvArray[1] + '\" alt="images" id="ipv_main">');
     $("#ipv_bg").append('<img src=\"' + ipvArray[2] + '\" alt="images" id="ipv_next">');
 
-    set_close_btn();
-
-    // アニメーションに使う座標
-    var main_pos_left = $('#ipv_main').css('margin-left');
-    $("#ipv_main").css({'left': main_pos_left, 'margin': 'auto 0'});
-
-
     $("#ipv_bg").toggleClass("Active");
 
     $("#ipv_bg").append('<div id="ipv_close_btn"></div>');
+    set_close_btn();
 
 	})
 
@@ -55,6 +50,8 @@ $(function(){
     // 親のイベントを無効
     e.stopPropagation();
 
+    set_main_image_pos();
+        
     $("#ipv_main").animate({
       left: "100%",
       queue: false
@@ -64,6 +61,7 @@ $(function(){
       queue: false
     }, 500, 'swing')
 
+    set_main_image_pos_reset();
     $('#ipv_next').attr('id', 'ipv_temp');
     $('#ipv_main').attr('id', 'ipv_next');
     $('#ipv_prev').attr('id', 'ipv_main');
@@ -71,14 +69,48 @@ $(function(){
 
     set_close_btn();
   })
+
+  $(document).on("click", "#ipv_right_btn", function (e) {
+    // 親のイベントを無効
+    e.stopPropagation();
+    
+    set_main_image_pos();
+    
+    $("#ipv_main").animate({
+      left: "-100%",
+      queue: false
+    }, 500, 'swing')
+    $("#ipv_next").animate({
+      left: "0", light: "0",
+      queue: false
+    }, 500, 'swing')
+
+    set_main_image_pos_reset();
+    $('#ipv_prev').attr('id', 'ipv_temp');
+    $('#ipv_main').attr('id', 'ipv_prev');
+    $('#ipv_next').attr('id', 'ipv_main');
+    $('#ipv_temp').attr('id', 'ipv_next');
+
+    set_close_btn();
+  })
 });
 
+function set_main_image_pos() {
+    // アニメーションに使う座標
+    var main_pos_left = $('#ipv_main').css('margin-left');
+    $("#ipv_main").css({'left': main_pos_left, 'margin': 'auto 0'});  
+}
+
+function set_main_image_pos_reset() {
+  $("#ipv_main").css({'margin': 'auto'});  
+}
+
 function set_close_btn () {
-  var window_w = window.innerWidth;
-  var window_h = window.innerHeight;
+  var window_w = $(window).width();
+  var window_h = $(window).height();
   var close_btn_w = parseInt($('#ipv_close_btn').css('width'));
-  var left_pos = ( (window_w / 2) + (parseInt($('#ipv_bg').find('img#main').css('width')) / 2) ) - close_btn_w - 8;
-  var top_pos = ( (window_h / 2) - (parseInt($('#ipv_bg').find('img#main').css('height')) / 2) ) + 4;
+  var left_pos = ( (window_w / 2) + (parseInt($('#ipv_bg').find('#ipv_main').css('width')) / 2) ) - close_btn_w - 8;
+  var top_pos = ( (window_h / 2) - (parseInt($('#ipv_bg').find('#ipv_main').css('height')) / 2) ) + 4;
   var close_btn = new Object();
   close_btn.top = top_pos
   close_btn.left = left_pos;
