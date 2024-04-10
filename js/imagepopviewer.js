@@ -2,6 +2,9 @@ var ipv_current_id = 0;
 var current_index = 0;
 var ipv_prev_temp = 0;
 var ipv_next_temp = 0;
+var prev_flg = false;
+var next_flg = false;
+var index = 0;
 
 $(function(){
 
@@ -9,9 +12,6 @@ $(function(){
 
   var elem = $('.ipv');
   var ipvArray = new Array();
-  var index = 0;
-  var prev_flg = false;
-  var next_flg = false;
 
   $.when(
     elem.each(function () {  
@@ -38,54 +38,14 @@ $(function(){
 
 	$(".ipv").on("click", function() {
 
-    var src = $(this).children('img').attr('src');
     ipv_current_id = $(this).children('img').attr("id");
-    //alert(ipv_current_image);
-    // $("#ipv_bg").empty();
-    // 最初だけ追加
+    check_btn_flg();
+
     $("#ipv_bg").removeClass("Hide");
-
-    current_index = Number(ipv_current_id.match(/\d+$/)[0]);
-
-    if (index >= 1)
-    {
-      if ( (current_index - 1) >= 0)
-      {
-        ipv_prev_temp = "ipv_image_" + (current_index - 1);
-        prev_flg = true;
-      }
-      if (current_index + 1 <= index)
-      {
-        ipv_next_temp = "ipv_image_" + (current_index + 1);
-        next_flg = true;
-      }
-    }
 
     $("#ipv_bg").find('#ipv_image_' + current_index).attr('id', "ipv_main");
 
-    if (prev_flg)
-    {
-      $("#ipv_bg").find('#ipv_image_' + (current_index - 1)).attr('id', "ipv_prev");
-      $("#ipv_left_btn").removeClass("Disable");
-      prev_flg = true;
-    }
-    else
-    {
-      $("#ipv_left_btn").attr('class', "Disable");
-      prev_flg = false;
-    }
-    if (next_flg)
-    {
-      $("#ipv_bg").find('#ipv_image_' + (current_index + 1)).attr('id', "ipv_next");
-      $("#ipv_right_btn").removeClass("Disable");
-      next_flg = true;
-    }
-    else
-    {
-      $("#ipv_right_btn").attr('class', "Disable");
-      prev_flg = false;
-    }
-
+    btn_disable();
     $("#ipv_bg").toggleClass("Active");
 
     set_close_btn();
@@ -101,6 +61,8 @@ $(function(){
     e.stopPropagation();
 
     set_main_image_pos();
+    check_btn_flg();
+    btn_disable();
         
     $("#ipv_main").animate({
       left: "100%",
@@ -125,6 +87,8 @@ $(function(){
     e.stopPropagation();
     
     set_main_image_pos();
+    check_btn_flg();
+    btn_disable();
     
     $("#ipv_main").animate({
       left: "-100%",
@@ -144,6 +108,49 @@ $(function(){
     set_close_btn();
   })
 });
+
+function btn_disable() {
+  if (prev_flg)
+  {
+    $("#ipv_bg").find('#ipv_image_' + (current_index - 1)).attr('id', "ipv_prev");
+    $("#ipv_left_btn").removeClass("Disable");
+    prev_flg = true;
+  }
+  else
+  {
+    $("#ipv_left_btn").attr('class', "Disable");
+    prev_flg = false;
+  }
+  if (next_flg)
+  {
+    $("#ipv_bg").find('#ipv_image_' + (current_index + 1)).attr('id', "ipv_next");
+    $("#ipv_right_btn").removeClass("Disable");
+    next_flg = true;
+  }
+  else
+  {
+    $("#ipv_right_btn").attr('class', "Disable");
+    prev_flg = false;
+  }
+}
+
+function check_btn_flg() {
+  current_index = Number(ipv_current_id.match(/\d+$/)[0]);
+
+  if (index >= 1)
+  {
+    if ( (current_index - 1) >= 0)
+    {
+      ipv_prev_temp = "ipv_image_" + (current_index - 1);
+      prev_flg = true;
+    }
+    if (current_index + 1 <= index)
+    {
+      ipv_next_temp = "ipv_image_" + (current_index + 1);
+      next_flg = true;
+    }
+  }
+}
 
 function ipv_image_initialize() {
   $('#ipv_main').attr('id', "ipv_image_" + current_index);
