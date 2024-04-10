@@ -1,3 +1,8 @@
+var ipv_current_id = 0;
+var current_index = 0;
+var ipv_prev_temp = 0;
+var ipv_next_temp = 0;
+
 $(function(){
 
   $('body').prepend('<div id="ipv_bg"></div>');
@@ -5,10 +10,6 @@ $(function(){
   var elem = $('.ipv');
   var ipvArray = new Array();
   var index = 0;
-  var current_index = 0;
-  var ipv_current_id = 0;
-  var ipv_prev_temp = 0;
-  var ipv_next_temp = 0;
   var prev_flg = false;
   var next_flg = false;
 
@@ -32,6 +33,7 @@ $(function(){
   $(document).on("click", "#ipv_close_btn", function () {
     $(this).toggleClass("Click");
     $("#ipv_bg").addClass("Hide");
+    ipv_image_initialize();
   });
 
 	$(".ipv").on("click", function() {
@@ -47,14 +49,14 @@ $(function(){
 
     if (index >= 1)
     {
-      if (current_index - 1 >= 0)
+      if ( (current_index - 1) >= 0)
       {
-        ipv_prev_temp = "ipv_image_" + current_index - 1;
+        ipv_prev_temp = "ipv_image_" + (current_index - 1);
         prev_flg = true;
       }
       if (current_index + 1 <= index)
       {
-        ipv_next_temp = "ipv_image_" + current_index + 1;
+        ipv_next_temp = "ipv_image_" + (current_index + 1);
         next_flg = true;
       }
     }
@@ -91,6 +93,7 @@ $(function(){
 
   $(document).on("click", "#ipv_bg", function () {
     $(this).toggleClass("Active");
+    ipv_image_initialize();
   })
 
   $(document).on("click", "#ipv_left_btn", function (e) {
@@ -141,6 +144,12 @@ $(function(){
     set_close_btn();
   })
 });
+
+function ipv_image_initialize() {
+  $('#ipv_main').attr('id', "ipv_image_" + current_index);
+  $('#ipv_prev').attr('id', ipv_prev_temp);
+  $('#ipv_next').attr('id', ipv_next_temp);
+}
 
 function set_main_image_pos() {
     // アニメーションに使う座標
