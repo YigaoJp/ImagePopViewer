@@ -31,8 +31,15 @@ $(function(){
     }
 
     $("#ipv_bg").append('<img src=\"' + ipvArray[0] + '\" alt="images" id="ipv_prev">');
-//    $("#ipv_bg").append('<img src=\"' + ipvArray[1] + '\" alt="images" id="main">');
-//    $("#ipv_bg").append('<img src=\"' + ipvArray[2] + '\" alt="images" id="ipv_next">');
+    $("#ipv_bg").append('<img src=\"' + ipvArray[1] + '\" alt="images" id="ipv_main">');
+    $("#ipv_bg").append('<img src=\"' + ipvArray[2] + '\" alt="images" id="ipv_next">');
+
+    set_close_btn();
+
+    // アニメーションに使う座標
+    var main_pos_left = $('#ipv_main').css('margin-left');
+    $("#ipv_main").css({'left': main_pos_left, 'margin': 'auto 0'});
+
 
     $("#ipv_bg").toggleClass("Active");
 
@@ -47,8 +54,21 @@ $(function(){
   $(document).on("click", "#ipv_left_btn", function (e) {
     // 親のイベントを無効
     e.stopPropagation();
-    $("#ipv_prev").animate({left:"0", light: "0"},1000);
-    $('#ipv_prev').attr('id', 'main');
+
+    $("#ipv_main").animate({
+      left: "100%",
+      queue: false
+    }, 500, 'swing')
+    $("#ipv_prev").animate({
+      left: "0", light: "0",
+      queue: false
+    }, 500, 'swing')
+
+    $('#ipv_next').attr('id', 'ipv_temp');
+    $('#ipv_main').attr('id', 'ipv_next');
+    $('#ipv_prev').attr('id', 'ipv_main');
+    $('#ipv_temp').attr('id', 'ipv_prev');
+
     set_close_btn();
   })
 });
