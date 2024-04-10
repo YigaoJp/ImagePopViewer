@@ -56,6 +56,10 @@ body {
   top: 0;
   bottom: 0;
 }
+#ipv_bg .ipv_initialize {
+  position: absolute;
+  left: 200%;
+}
 #ipv_bg #ipv_prev {
   right: 200%;
   z-index: 8000;
@@ -87,6 +91,10 @@ body {
   transition: 0.5s;
   cursor: pointer;
 }
+#ipv_bg #ipv_right_btn.Disable {
+  opacity: 0.25;
+  pointer-events: none;
+}
 @media screen and (max-width: 640px) {
   #ipv_bg #ipv_right_btn {
     width: var(--ipv_btn_sp_size);
@@ -117,6 +125,10 @@ body {
   z-index: 9810;
   transition: 0.5s;
   cursor: pointer;
+}
+#ipv_bg #ipv_left_btn.Disable {
+  opacity: 0.25;
+  pointer-events: none;
 }
 @media screen and (max-width: 640px) {
   #ipv_bg #ipv_left_btn {

@@ -1,18 +1,33 @@
 $(function(){
-  const img_w = $('.ipv').width();
-  const img_h = $('.ipv').height();
-  var click_flg = false;
 
   $('body').prepend('<div id="ipv_bg"></div>');
 
   var elem = $('.ipv');
   var ipvArray = new Array();
   var index = 0;
-  elem.each(function () {  
-    ipvArray[index] = $(this).children('img').attr('src');
-    $(this).children('img').attr('id', "ipv_image" + index);
-    index++;
-  });
+  var current_index = 0;
+  var ipv_current_id = 0;
+  var ipv_prev_temp = 0;
+  var ipv_next_temp = 0;
+  var prev_flg = false;
+  var next_flg = false;
+
+  $.when(
+    elem.each(function () {  
+      ipvArray[index] = $(this).children('img').attr('src');
+      $(this).find('img').attr('id', "ipv_" + index);
+      $("#ipv_bg").append('<img src=\"' + ipvArray[index] + '\" alt="images" class="ipv_initialize" id="ipv_image_' + index + '">');
+      index++;
+    })
+  )
+  .done(function() {
+    $("#ipv_bg").append('<div id="ipv_close_btn"></div>');
+    if(index > 0)
+    {
+      $("#ipv_bg").append('<div id="ipv_left_btn"></div>');
+      $("#ipv_bg").append('<div id="ipv_right_btn"></div>');
+    }
+  })
 
   $(document).on("click", "#ipv_close_btn", function () {
     $(this).toggleClass("Click");
@@ -22,24 +37,56 @@ $(function(){
 	$(".ipv").on("click", function() {
 
     var src = $(this).children('img').attr('src');
-
-    $("#ipv_bg").empty();
+    ipv_current_id = $(this).children('img').attr("id");
+    //alert(ipv_current_image);
+    // $("#ipv_bg").empty();
+    // 最初だけ追加
     $("#ipv_bg").removeClass("Hide");
-    if(index > 0)
+
+    current_index = Number(ipv_current_id.match(/\d+$/)[0]);
+
+    if (index >= 1)
     {
-      $("#ipv_bg").append('<div id="ipv_left_btn"></div>');
-      $("#ipv_bg").append('<div id="ipv_right_btn"></div>');
+      if (current_index - 1 >= 0)
+      {
+        ipv_prev_temp = "ipv_image_" + current_index - 1;
+        prev_flg = true;
+      }
+      if (current_index + 1 <= index)
+      {
+        ipv_next_temp = "ipv_image_" + current_index + 1;
+        next_flg = true;
+      }
     }
 
-    $("#ipv_bg").append('<img src=\"' + ipvArray[0] + '\" alt="images" id="ipv_prev">');
-    $("#ipv_bg").append('<img src=\"' + ipvArray[1] + '\" alt="images" id="ipv_main">');
-    $("#ipv_bg").append('<img src=\"' + ipvArray[2] + '\" alt="images" id="ipv_next">');
+    $("#ipv_bg").find('#ipv_image_' + current_index).attr('id', "ipv_main");
+
+    if (prev_flg)
+    {
+      $("#ipv_bg").find('#ipv_image_' + (current_index - 1)).attr('id', "ipv_prev");
+      $("#ipv_left_btn").removeClass("Disable");
+      prev_flg = true;
+    }
+    else
+    {
+      $("#ipv_left_btn").attr('class', "Disable");
+      prev_flg = false;
+    }
+    if (next_flg)
+    {
+      $("#ipv_bg").find('#ipv_image_' + (current_index + 1)).attr('id', "ipv_next");
+      $("#ipv_right_btn").removeClass("Disable");
+      next_flg = true;
+    }
+    else
+    {
+      $("#ipv_right_btn").attr('class', "Disable");
+      prev_flg = false;
+    }
 
     $("#ipv_bg").toggleClass("Active");
 
-    $("#ipv_bg").append('<div id="ipv_close_btn"></div>');
     set_close_btn();
-
 	})
 
   $(document).on("click", "#ipv_bg", function () {

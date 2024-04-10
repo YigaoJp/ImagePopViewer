@@ -59,6 +59,11 @@ body {
     bottom: 0;
   }
 
+  .ipv_initialize {
+    position: absolute;
+    left: 200%;
+  }
+
   #ipv_prev {
     right: 200%;
     z-index: 8000;
@@ -93,6 +98,11 @@ body {
     transition: .5s;
     cursor: pointer;
 
+    &.Disable {
+      opacity: .25;
+      pointer-events: none;
+    }
+
     @media screen and (max-width: 640px) {
       width: var(--ipv_btn_sp_size);
       height: var(--ipv_btn_sp_size);
@@ -124,6 +134,11 @@ body {
     z-index: 9810;
     transition: .5s;
     cursor: pointer;
+
+    &.Disable {
+      opacity: .25;
+      pointer-events: none;
+    }
 
     @media screen and (max-width: 640px) {
       width: var(--ipv_btn_sp_size);
