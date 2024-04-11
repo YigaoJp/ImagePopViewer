@@ -58,7 +58,7 @@ body {
 }
 #ipv_bg .ipv_initialize {
   position: absolute;
-  left: 200%;
+  right: 200%;
 }
 #ipv_bg #ipv_prev {
   right: 200%;

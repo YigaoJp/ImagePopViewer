@@ -2,9 +2,7 @@ var ipv_current_id = 0;
 var current_index = 0;
 var ipv_temp = "";
 var ipv_prev_temp = "";
-var ipv_prev_temp2 = "";
 var ipv_next_temp = "";
-var ipv_next_temp2 = "";
 var prev_flg = false;
 var next_flg = false;
 var ipv_index = 0;
@@ -194,7 +192,7 @@ function check_btn_flg() {
       ipv_prev_temp = "ipv_image_" + (current_index - 1);
       prev_flg = true;
     }
-    if (current_index + 1 <= ipv_index)
+    if ( (current_index + 1) < ipv_index)
     {
       ipv_next_temp = "ipv_image_" + (current_index + 1);
       next_flg = true;
