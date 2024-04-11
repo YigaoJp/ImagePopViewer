@@ -6,6 +6,7 @@ var ipv_next_temp = "";
 var prev_flg = false;
 var next_flg = false;
 var ipv_index = 0;
+var zoom_flg = false;
 
 $(function(){
 
@@ -24,6 +25,8 @@ $(function(){
   )
   .done(function() {
     $("#ipv_bg").append('<div id="ipv_close_btn"></div>');
+    $("#ipv_bg").append('<div id="ipv_zoom_btn"></div>');
+    $("#ipv_bg").append('<div id="ipv_zoom_viewer"></div>');
     if(ipv_index > 0)
     {
       $("#ipv_bg").append('<div id="ipv_left_btn"></div>');
@@ -36,6 +39,7 @@ $(function(){
     $("#ipv_bg").addClass("Hide");
     ipv_image_initialize();
     style_reset();
+    zoom_flg = false;
   });
 
 	$(".ipv").on("click", function() {
@@ -51,12 +55,14 @@ $(function(){
     $("#ipv_bg").toggleClass("Active");
 
     set_close_btn();
+    set_zoom_btn();
 	})
 
   $(document).on("click", "#ipv_bg", function () {
     $(this).toggleClass("Active");
     ipv_image_initialize();
     style_reset();
+    zoom_flg = false;
   })
 
   $(document).on("click", "#ipv_left_btn", function (e) {
@@ -102,6 +108,7 @@ $(function(){
     check_btn_flg();
     btn_disable();
     set_close_btn();
+    set_zoom_btn();
     style_reset();
   })
 
@@ -148,13 +155,44 @@ $(function(){
     check_btn_flg();
     btn_disable();
     set_close_btn();
+    set_zoom_btn();
     style_reset();
   })
+
+  $(document).on("click", "#ipv_zoom_btn", function (e) {
+    // 親のイベントを無効
+    e.stopPropagation();
+    zoom_flg = true;
+  });
+
+  $(document).on("mousemove", "#ipv_bg", function(e){
+    if(zoom_flg == false)
+    {
+      return;
+    }
+    
+    if(zoom_flg == true)
+    {
+      $("#ipv_zoom_btn").toggleClass("Active");
+      zoom_flg = false;
+    }
+
+    $("#ipv_bg").hover(function(){
+      console.log("a");
+    });
+    let x = e.clientX;
+    let y = e.clientY;
+    console.log(x);
+    $("#ipv_zoom_viewer").css({
+      "transform": "translate(" + x + "px," + y + "px) scale(" + 2 + ")",
+    });
+  });
 });
 
 function style_reset() {
   // スタイルを削除
   $('#ipv_bg').find('img').removeAttr('style');
+  $("#ipv_zoom_btn").removeClass('Active');
 }
 
 function btn_disable() {
@@ -234,6 +272,18 @@ function set_close_btn () {
   close_btn.top = top_pos
   close_btn.left = left_pos;
   $("#ipv_close_btn").css(close_btn);
+}
+
+function set_zoom_btn () {
+  var window_w = $(window).width();
+  var window_h = $(window).height();
+  var zoom_btn_w = parseInt($('#ipv_zoom_btn').css('width'));
+  var left_pos = ( (window_w / 2) + (parseInt($('#ipv_bg').find('#ipv_main').css('width')) / 2) ) - zoom_btn_w - 8;
+  var bottom_pos = ( (window_h / 2) - (parseInt($('#ipv_bg').find('#ipv_main').css('height')) / 2) ) + 4;
+  var zoom_btn = new Object();
+  zoom_btn.bottom = bottom_pos
+  zoom_btn.left = left_pos;
+  $("#ipv_zoom_btn").css(zoom_btn);
 }
 
 var clWidth = 0;
