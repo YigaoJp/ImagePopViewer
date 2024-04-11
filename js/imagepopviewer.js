@@ -1,10 +1,13 @@
 var ipv_current_id = 0;
 var current_index = 0;
-var ipv_prev_temp = 0;
-var ipv_next_temp = 0;
+var ipv_temp = "";
+var ipv_prev_temp = "";
+var ipv_prev_temp2 = "";
+var ipv_next_temp = "";
+var ipv_next_temp2 = "";
 var prev_flg = false;
 var next_flg = false;
-var index = 0;
+var ipv_index = 0;
 
 $(function(){
 
@@ -15,15 +18,15 @@ $(function(){
 
   $.when(
     elem.each(function () {  
-      ipvArray[index] = $(this).children('img').attr('src');
-      $(this).find('img').attr('id', "ipv_" + index);
-      $("#ipv_bg").append('<img src=\"' + ipvArray[index] + '\" alt="images" class="ipv_initialize" id="ipv_image_' + index + '">');
-      index++;
+      ipvArray[ipv_index] = $(this).children('img').attr('src');
+      $(this).find('img').attr('id', "ipv_" + ipv_index);
+      $("#ipv_bg").append('<img src=\"' + ipvArray[ipv_index] + '\" alt="images" class="ipv_initialize" id="ipv_image_' + ipv_index + '">');
+      ipv_index++;
     })
   )
   .done(function() {
     $("#ipv_bg").append('<div id="ipv_close_btn"></div>');
-    if(index > 0)
+    if(ipv_index > 0)
     {
       $("#ipv_bg").append('<div id="ipv_left_btn"></div>');
       $("#ipv_bg").append('<div id="ipv_right_btn"></div>');
@@ -34,6 +37,7 @@ $(function(){
     $(this).toggleClass("Click");
     $("#ipv_bg").addClass("Hide");
     ipv_image_initialize();
+    style_reset();
   });
 
 	$(".ipv").on("click", function() {
@@ -54,6 +58,7 @@ $(function(){
   $(document).on("click", "#ipv_bg", function () {
     $(this).toggleClass("Active");
     ipv_image_initialize();
+    style_reset();
   })
 
   $(document).on("click", "#ipv_left_btn", function (e) {
@@ -61,8 +66,6 @@ $(function(){
     e.stopPropagation();
 
     set_main_image_pos();
-    check_btn_flg();
-    btn_disable();
         
     $("#ipv_main").animate({
       left: "100%",
@@ -74,12 +77,34 @@ $(function(){
     }, 500, 'swing')
 
     set_main_image_pos_reset();
-    $('#ipv_next').attr('id', 'ipv_temp');
+
+    if(0 <= (current_index - 2))
+    {
+      ipv_prev_temp = "ipv_image_" + (current_index - 2);
+      prev_flg = true;
+    }
+    else
+    {
+      prev_flg = false;
+    }
+
+    ipv_next_temp = "ipv_image_" + (current_index + 1);
+
+    current_index--;
+    ipv_current_id = "#ipv_image_" + current_index;
+
+    $('#ipv_next').attr('id', ipv_next_temp);
     $('#ipv_main').attr('id', 'ipv_next');
     $('#ipv_prev').attr('id', 'ipv_main');
-    $('#ipv_temp').attr('id', 'ipv_prev');
+    if(prev_flg)
+    {
+      $("#" + ipv_prev_temp).attr('id', 'ipv_prev');
+    }
 
+    check_btn_flg();
+    btn_disable();
     set_close_btn();
+    style_reset();
   })
 
   $(document).on("click", "#ipv_right_btn", function (e) {
@@ -87,8 +112,6 @@ $(function(){
     e.stopPropagation();
     
     set_main_image_pos();
-    check_btn_flg();
-    btn_disable();
     
     $("#ipv_main").animate({
       left: "-100%",
@@ -100,14 +123,41 @@ $(function(){
     }, 500, 'swing')
 
     set_main_image_pos_reset();
-    $('#ipv_prev').attr('id', 'ipv_temp');
+
+    if(ipv_index > (current_index + 2))
+    {
+      ipv_next_temp = "ipv_image_" + (current_index + 2);
+      next_flg = true;
+    }
+    else
+    {
+      next_flg = false;
+    }
+
+    ipv_prev_temp = "ipv_image_" + (current_index - 1);
+
+    current_index++;
+    ipv_current_id = "#ipv_image_" + current_index;
+
+    $('#ipv_prev').attr('id', ipv_prev_temp);
     $('#ipv_main').attr('id', 'ipv_prev');
     $('#ipv_next').attr('id', 'ipv_main');
-    $('#ipv_temp').attr('id', 'ipv_next');
+    if(next_flg)
+    {
+      $("#" + ipv_next_temp).attr('id', 'ipv_next');
+    }
 
+    check_btn_flg();
+    btn_disable();
     set_close_btn();
+    style_reset();
   })
 });
+
+function style_reset() {
+  // スタイルを削除
+  $('#ipv_bg').find('img').removeAttr('style');
+}
 
 function btn_disable() {
   if (prev_flg)
@@ -137,14 +187,14 @@ function btn_disable() {
 function check_btn_flg() {
   current_index = Number(ipv_current_id.match(/\d+$/)[0]);
 
-  if (index >= 1)
+  if (ipv_index >= 1)
   {
     if ( (current_index - 1) >= 0)
     {
       ipv_prev_temp = "ipv_image_" + (current_index - 1);
       prev_flg = true;
     }
-    if (current_index + 1 <= index)
+    if (current_index + 1 <= ipv_index)
     {
       ipv_next_temp = "ipv_image_" + (current_index + 1);
       next_flg = true;
