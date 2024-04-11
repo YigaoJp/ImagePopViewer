@@ -192,10 +192,18 @@ function check_btn_flg() {
       ipv_prev_temp = "ipv_image_" + (current_index - 1);
       prev_flg = true;
     }
+    else
+    {
+      prev_flg = false;
+    }
     if ( (current_index + 1) < ipv_index)
     {
       ipv_next_temp = "ipv_image_" + (current_index + 1);
       next_flg = true;
+    }
+    else
+    {
+      next_flg = false;
     }
   }
 }
