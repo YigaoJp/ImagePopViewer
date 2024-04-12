@@ -66,6 +66,11 @@ $(function(){
   })
 
   $(document).on("click", "#ipv_left_btn", function (e) {
+
+    if($('#ipv_left_btn').hasClass("Disable")) {
+      return false;
+    }
+
     // 親のイベントを無効
     e.stopPropagation();
 
@@ -113,19 +118,28 @@ $(function(){
   })
 
   $(document).on("click", "#ipv_right_btn", function (e) {
+
+    if($('#ipv_right_btn').hasClass("Disable")) {
+      return false;
+    }
+
     // 親のイベントを無効
     e.stopPropagation();
     
     set_main_image_pos();
     
-    $("#ipv_main").animate({
-      left: "-100%",
-      queue: false
-    }, 500, 'swing')
-    $("#ipv_next").animate({
-      left: "0", light: "0",
-      queue: false
-    }, 500, 'swing')
+    $.when(
+      $("#ipv_main").animate({
+        left: "-100%",
+        queue: false
+      }, 500, 'swing'),
+      $("#ipv_next").animate({
+        left: "0", light: "0",
+        queue: false
+      }, 500, 'swing')
+      ).done(function() {
+        style_reset();
+    });
 
     set_main_image_pos_reset();
 

@@ -96,7 +96,6 @@ body {
 }
 #ipv_bg #ipv_right_btn.Disable {
   opacity: 0.25;
-  pointer-events: none;
 }
 @media screen and (max-width: 640px) {
   #ipv_bg #ipv_right_btn {
@@ -131,7 +130,6 @@ body {
 }
 #ipv_bg #ipv_left_btn.Disable {
   opacity: 0.25;
-  pointer-events: none;
 }
 @media screen and (max-width: 640px) {
   #ipv_bg #ipv_left_btn {
