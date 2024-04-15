@@ -237,18 +237,21 @@ body {
       transition: .5s;
     }
   }
-/* ここから */
 
+  #ipv_temp_img {
+    display: none;
+  }
+  
   #ipv_zoom_viewer {
     width: var(--ipv_zoom_x);
     height: var(--ipv_zoom_y);
     border: 2px solid var(--ipv_btn_hover);
-    position: relative;
     box-sizing: border-box;
     background-repeat: no-repeat;
     box-shadow: -5px -5px 10px 0px rgba(255, 255, 255, 0.5), 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     z-index: 9900;
+    position: relative;
     pointer-events: none;
     display: none;
   } 

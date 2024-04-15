@@ -27,6 +27,7 @@ $(function(){
     })
   )
   .done(function() {
+    $("#ipv_bg").append('<div id="ipv_temp_img"><img alt="temp image"></div>');
     $("#ipv_bg").append('<div id="ipv_close_btn"></div>');
     $("#ipv_bg").append('<div id="ipv_zoom_btn"></div>');
     $("#ipv_bg").append('<div id="ipv_zoom_viewer"></div>');
@@ -180,6 +181,7 @@ $(function(){
     // 親のイベントを無効
     e.stopPropagation();
     $("#ipv_zoom_btn").toggleClass("Active");
+    
     $('#ipv_zoom_viewer').css('background-image', 'url(' + $("#ipv_main").attr('src') + ')');
     ipv_magnification = getComputedStyle(document.documentElement).getPropertyValue('--ipv_magnification');
 
@@ -193,6 +195,11 @@ $(function(){
       ipv_zoom_flg = false;
       $('#ipv_zoom_viewer').css('display', 'none');
     }
+
+    ipv_zoom_x = parseInt($("#ipv_zoom_viewer").css("width"));
+    ipv_zoom_y = parseInt($("#ipv_zoom_viewer").css("height"));
+    $('#ipv_zoom_viewer').offset({ top: e.pageY - (ipv_zoom_y / 2), left: e.pageX - (ipv_zoom_x / 2 )});
+
   });
 
   $(document).on('mousemove', "#ipv_main", function(e){
@@ -204,14 +211,17 @@ $(function(){
     
     ipv_zoom_x = parseInt($("#ipv_zoom_viewer").css("width"));
     ipv_zoom_y = parseInt($("#ipv_zoom_viewer").css("height"));
+
+    $('#ipv_temp_img').find('img').attr("src", $("#ipv_main").attr('src'));
+    ipv_z_w = $('#ipv_temp_img').find('img')[0].width;
+    ipv_z_h = $(this).height();
+
 //    $('#text').text("x " + ((e.offsetX - ((ipv_zoom_x * ipv_magnification) / 2 )) + " : y " + ((e.offsetY - ((ipv_zoom_y * ipv_magnification) / 2 )))));
-
     $('#ipv_zoom_viewer').css('background-position' , 
-    '-' + (e.offsetX * ipv_magnification - (ipv_zoom_y / 2)) + 'px ' + 
-    '-' + (e.offsetY * ipv_magnification - (ipv_zoom_y / 2)) + 'px');
+    '-' + e.offsetX * ipv_magnification + 'px ' + 
+    '-' + e.offsetY * ipv_magnification + 'px');
 
-
-    $('#ipv_zoom_viewer').offset({ top: (e.pageY - ipv_zoom_y), left: (e.pageX - ipv_zoom_x ) });
+    $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)), left: (e.pageX - (ipv_zoom_x / 2)) });
   });
 });
 
