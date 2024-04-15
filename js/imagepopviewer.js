@@ -7,6 +7,8 @@ var prev_flg = false;
 var next_flg = false;
 var ipv_index = 0;
 var zoom_flg = false;
+var ipv_zoom_x = 0;
+var ipv_zoom_y = 0;
 
 $(function(){
 
@@ -176,30 +178,33 @@ $(function(){
   $(document).on("click", "#ipv_zoom_btn", function (e) {
     // 親のイベントを無効
     e.stopPropagation();
-    zoom_flg = true;
+    $("#ipv_zoom_btn").toggleClass("Active");
+
+    if(zoom_flg == false)
+    {
+      zoom_flg = true;
+      $('#ipv_zoom_viewer').css('display', 'block');
+    }
+    else
+    {
+      zoom_flg = false;
+      $('#ipv_zoom_viewer').css('display', 'none');
+    }
   });
 
-  $(document).on("mousemove", "#ipv_bg", function(e){
+  $(document).on('mousemove', "#ipv_main", function(e){
+
     if(zoom_flg == false)
     {
       return;
     }
     
-    if(zoom_flg == true)
-    {
-      $("#ipv_zoom_btn").toggleClass("Active");
-      zoom_flg = false;
-    }
-
-    $("#ipv_bg").hover(function(){
-      console.log("a");
-    });
-    let x = e.clientX;
-    let y = e.clientY;
-    console.log(x);
-    $("#ipv_zoom_viewer").css({
-      "transform": "translate(" + x + "px," + y + "px) scale(" + 2 + ")",
-    });
+    $('#text').text(e.offsetX);
+    //$('#ipv_zoom_viewer').offset({ top: e.offsetY, left: e.offsetX });
+    ipv_zoom_x = parseInt($("#ipv_zoom_viewer").css("width"));
+    ipv_zoom_y = parseInt($("#ipv_zoom_viewer").css("height"));
+    
+    $('#ipv_zoom_viewer').offset({ top: (e.clientY - ipv_zoom_y), left: (e.clientX - ipv_zoom_x ) });
   });
 });
 
@@ -207,6 +212,8 @@ function style_reset() {
   // スタイルを削除
   $('#ipv_bg').find('img').removeAttr('style');
   $("#ipv_zoom_btn").removeClass('Active');
+  $('#ipv_zoom_viewer').css('display', 'none');
+  zoom_flg = false;
 }
 
 function btn_disable() {

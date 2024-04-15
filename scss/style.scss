@@ -3,6 +3,8 @@
   --ipv_btn_hover: rgba(70, 99, 197, 0.7);
   --ipv_btn_pc_size: 50px;
   --ipv_btn_sp_size: 36px;
+  --ipv_zoom_x: 400px;
+  --ipv_zoom_y: 240px;
 }
 
 body {
@@ -162,7 +164,7 @@ body {
     background: var(--ipv_bg_color);
     background-image: url('./../images/ipv_close_btn.svg');
     background-repeat: no-repeat;
-    background-size: 42px;
+    background-size: calc(var(--ipv_btn_pc_size) - 18px);
     background-position: center center;
     border-radius: 50%;
     position: absolute;
@@ -186,7 +188,7 @@ body {
       background: var(--ipv_btn_hover);
       background-image: url('./../images/ipv_close_btn.svg');
       background-repeat: no-repeat;
-      background-size: 42px;
+      background-size: calc(var(--ipv_btn_pc_size) - 18px);
       background-position: center center;
       transition: .5s;
     }
@@ -204,7 +206,7 @@ body {
     background: var(--ipv_bg_color);
     background-image: url('./../images/ipv_zoom.svg');
     background-repeat: no-repeat;
-    background-size: 42px;
+    background-size: calc(var(--ipv_btn_pc_size) - 18px);
     background-position: center center;
     border-radius: 50%;
     position: absolute;
@@ -220,7 +222,7 @@ body {
       background: var(--ipv_btn_hover);
       background-image: url('./../images/ipv_zoom.svg');
       background-repeat: no-repeat;
-      background-size: 42px;
+      background-size: calc(var(--ipv_btn_pc_size) - 18px);
       background-position: center center;
       transition: .5s;
     }
@@ -229,18 +231,23 @@ body {
       background: var(--ipv_btn_hover);
       background-image: url('./../images/ipv_zoom.svg');
       background-repeat: no-repeat;
-      background-size: 42px;
+      background-size: calc(var(--ipv_btn_pc_size) - 18px);
       background-position: center center;
       transition: .5s;
     }
   }
 /* ここから */
   #ipv_zoom_viewer {
-    width: 25vw;
-    height: 20vw;
+    width: var(--ipv_zoom_x);
+    height: var(--ipv_zoom_y);
     border: 2px solid var(--ipv_btn_hover);
+    position: relative;
+    box-sizing: border-box;
+    box-shadow: -5px -5px 10px 0px rgba(255, 255, 255, 0.5), 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
+    z-index: 9900;
+    pointer-events: none;
     display: none;
-  }
+  } 
 }
 
 #main_container {
