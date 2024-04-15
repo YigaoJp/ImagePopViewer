@@ -10,6 +10,8 @@ var ipv_zoom_flg = false;
 var ipv_zoom_x = 0;
 var ipv_zoom_y = 0;
 var ipv_magnification = 1.0;
+var ipv_img_original_width = 0;
+var ipv_img_original_height = 0;
 
 $(function(){
 
@@ -212,10 +214,14 @@ $(function(){
     ipv_zoom_x = parseInt($("#ipv_zoom_viewer").css("width"));
     ipv_zoom_y = parseInt($("#ipv_zoom_viewer").css("height"));
 
-    $('#ipv_temp_img').find('img').attr("src", $("#ipv_main").attr('src'));
-    ipv_z_w = $('#ipv_temp_img').find('img')[0].width;
-    ipv_z_h = $(this).height();
+    ipv_img_w = parseInt($(this).css("width"));
+    ipv_img_h = parseInt($(this).css("height"));
 
+    $('#ipv_temp_img').find('img').attr("src", $("#ipv_main").attr('src'));
+    ipv_img_original_width = $('#ipv_temp_img').find('img')[0].width;
+    ipv_img_original_height = $('#ipv_temp_img').find('img')[0].height;
+
+    console.log("ow:" + ipv_img_original_width + "  oh:" + ipv_img_original_height + "   iw:" + ipv_img_w + "    ih:" + ipv_img_h);
 //    $('#text').text("x " + ((e.offsetX - ((ipv_zoom_x * ipv_magnification) / 2 )) + " : y " + ((e.offsetY - ((ipv_zoom_y * ipv_magnification) / 2 )))));
     $('#ipv_zoom_viewer').css('background-position' , 
     '-' + e.offsetX * ipv_magnification + 'px ' + 
