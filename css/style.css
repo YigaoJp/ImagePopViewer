@@ -4,8 +4,9 @@
   --ipv_btn_hover: rgba(70, 99, 197, 0.7);
   --ipv_btn_pc_size: 50px;
   --ipv_btn_sp_size: 36px;
-  --ipv_zoom_x: 400px;
-  --ipv_zoom_y: 240px;
+  --ipv_zoom_x: 40%;
+  --ipv_zoom_y: 40%;
+  --ipv_magnification: 1.6;
 }
 
 body {
@@ -199,7 +200,7 @@ body {
   background-position: center center;
   border-radius: 50%;
   position: absolute;
-  z-index: 9810;
+  z-index: 9910;
   transition: 0.5s;
   cursor: pointer;
 }
@@ -230,7 +231,9 @@ body {
   border: 2px solid var(--ipv_btn_hover);
   position: relative;
   box-sizing: border-box;
+  background-repeat: no-repeat;
   box-shadow: -5px -5px 10px 0px rgba(255, 255, 255, 0.5), 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
   z-index: 9900;
   pointer-events: none;
   display: none;
