@@ -12,6 +12,7 @@ var ipv_zoom_y = 0;
 var ipv_magnification = 1.0;
 var ipv_img_original_width = 0;
 var ipv_img_original_height = 0;
+var ipv_scale = 1.0;
 
 $(function(){
 
@@ -200,7 +201,7 @@ $(function(){
 
     ipv_zoom_x = parseInt($("#ipv_zoom_viewer").css("width"));
     ipv_zoom_y = parseInt($("#ipv_zoom_viewer").css("height"));
-    $('#ipv_zoom_viewer').offset({ top: e.pageY - (ipv_zoom_y / 2), left: e.pageX - (ipv_zoom_x / 2 )});
+    $('#ipv_zoom_viewer').offset({ top: e.pageY - (ipv_zoom_y / 2), left: e.pageX - (ipv_zoom_x / 2 )}).hide().fadeIn();
 
   });
 
@@ -221,13 +222,23 @@ $(function(){
     ipv_img_original_width = $('#ipv_temp_img').find('img')[0].width;
     ipv_img_original_height = $('#ipv_temp_img').find('img')[0].height;
 
-    console.log("ow:" + ipv_img_original_width + "  oh:" + ipv_img_original_height + "   iw:" + ipv_img_w + "    ih:" + ipv_img_h);
-//    $('#text').text("x " + ((e.offsetX - ((ipv_zoom_x * ipv_magnification) / 2 )) + " : y " + ((e.offsetY - ((ipv_zoom_y * ipv_magnification) / 2 )))));
-    $('#ipv_zoom_viewer').css('background-position' , 
-    '-' + e.offsetX * ipv_magnification + 'px ' + 
-    '-' + e.offsetY * ipv_magnification + 'px');
+    ipv_scale = ipv_img_original_width / ipv_img_w;
+    //デバッグ用
+   $('#text').text(((e.offsetX * ipv_scale) - (ipv_zoom_x / 2))+" ] " + "ow:" + ipv_img_original_width + "  oh:" + ipv_img_original_height + "   iw:" + ipv_img_w + "    ih:" + ipv_img_h + " / offsetX:" + e.offsetX + " offsetY:" + e.offsetY);
 
-    $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)), left: (e.pageX - (ipv_zoom_x / 2)) });
+   $('#ipv_zoom_viewer').css('background-position' , 
+    '-' + ((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) + 'px ' + 
+    '-' + ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2)) + 'px');
+
+    // 画面左端を超えたら
+    if((e.pageX - (ipv_zoom_x / 2) > 20) && (e.pageY - (ipv_zoom_y / 2) > (ipv_zoom_y / 4)))
+    {
+      $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)), left: (e.pageX - (ipv_zoom_x / 2)) });
+    }
+    else
+    {
+    //  $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)) });
+    }
   });
 });
 
