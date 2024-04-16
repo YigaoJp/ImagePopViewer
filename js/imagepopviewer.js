@@ -365,8 +365,8 @@ function set_main_image_pos_reset() {
 }
 
 function set_close_btn () {
-  var window_w = $(window).width();
-  var window_h = $(window).height();
+  var window_w = window.innerWidth;
+  var window_h = window.innerHeight;
   var close_btn_w = parseInt($('#ipv_close_btn').css('width'));
   var left_pos = ( (window_w / 2) + (parseInt($('#ipv_bg').find('#ipv_main').css('width')) / 2) ) - close_btn_w - 8;
   var top_pos = ( (window_h / 2) - (parseInt($('#ipv_bg').find('#ipv_main').css('height')) / 2) ) + 4;
