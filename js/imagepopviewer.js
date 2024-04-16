@@ -261,7 +261,7 @@ $(function(){
       }
       else if(!(e.pageX - (ipv_zoom_x / 2) < 20))
       {
-        $('#ipv_zoom_viewer').offset({ left: (e.pageX - (ipv_zoom_x / 2)) });
+        $('#ipv_zoom_viewer').offset({top: 20, left: (e.pageX - (ipv_zoom_x / 2)) });
       }
     }
   });
