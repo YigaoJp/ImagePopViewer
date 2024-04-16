@@ -248,36 +248,44 @@ $(function(){
 
     /* 画面端に対応 */
     // 上端なら
-    if((e.offsetY - (ipv_zoom_y / 2)) < 20)
+    if((e.offsetY - (ipv_zoom_y / 2)) < 20 && e.pageX- (ipv_zoom_x / 2) > 0 )
     {
-      $('#ipv_zoom_viewer').offset({top: 20, left: (e.pageX - (ipv_zoom_x / 2)) });
+      $('#ipv_zoom_viewer').offset({top: 120 , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
     // 下端なら
     else if((e.pageY > ipv_img_h))
     {
-      $('#ipv_zoom_viewer').offset({ top: (ipv_img_h - (ipv_zoom_y / 1.5  )), left: (e.pageX - (ipv_zoom_x / 2)) });
+      $('#ipv_zoom_viewer').offset({ top: (ipv_img_h - (ipv_zoom_y / 1.5  )) , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
     // 左端なら
     else if((e.pageX- (ipv_zoom_x / 2)) < 0)
     {
-      $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)), left: 20 });
+      // 左上の場合
+      if((e.offsetY - (ipv_zoom_y / 2)) < 20)
+      {
+        $('#ipv_zoom_viewer').offset({ top: 120, left: (20 * ipv_magnification)});
+      }
+      else
+      {
+        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: (20 * ipv_magnification)});
+      }
     }
     // 右端なら
     else if((e.offsetX + (ipv_zoom_x / 2)) > ipv_img_w)
     {
       if(ipv_img_w > ipv_img_h)
       {
-        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)), left: 'auto', right: 40 });
+        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification) , left: 'auto', right: (40 * ipv_magnification) });
       }
       else
       {
-        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)), left: (e.pageX - (ipv_zoom_x / 2)) });
+        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
       }
     }
     // 通常処理
     else
     {
-      $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2)), left: (e.pageX - (ipv_zoom_x / 2)) });
+      $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
   });
 });
