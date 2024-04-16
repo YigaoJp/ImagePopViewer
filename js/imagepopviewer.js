@@ -12,6 +12,7 @@ var ipv_zoom_y = 0;
 var ipv_magnification = 1.0;
 var ipv_img_original_width = 0;
 var ipv_img_original_height = 0;
+var main_offset_top = 0;
 var ipv_scale = 1.0;
 
 $(function(){
@@ -201,6 +202,7 @@ $(function(){
 
     ipv_zoom_x = parseInt($("#ipv_zoom_viewer").css("width"));
     ipv_zoom_y = parseInt($("#ipv_zoom_viewer").css("height"));
+
     $('#ipv_zoom_viewer').offset({ top: e.pageY - (ipv_zoom_y / 2), left: e.pageX - (ipv_zoom_x / 2 )}).hide().fadeIn();
     $('#ipv_zoom_viewer').css('transform' , 'scale(' + ipv_magnification + ')');
   });
@@ -224,67 +226,70 @@ $(function(){
 
     ipv_scale = ipv_img_original_width / ipv_img_w;
 
-   if(((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) > 0 && ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2) > 0 )) 
-   {
-    $('#ipv_zoom_viewer').css('background-position' , 
-    '-' + ((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) + 'px ' + 
-    '-' + ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2)) + 'px');
-   }
-   else
-   {
-    if(((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) < 0)
+    // スケールの設定
+    if(((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) > 0 && ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2) > 0 )) 
     {
-      $('#ipv_zoom_viewer').css('background-position' , 
-      '0px ' + 
-      '-' + ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2)) + 'px');
+     $('#ipv_zoom_viewer').css('background-position' , 
+     '-' + ((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) + 'px ' + 
+     '-' + ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2)) + 'px');
     }
-    else if(((e.offsetY * ipv_scale) - (ipv_zoom_y / 2)) < 0)
+    else
     {
-      $('#ipv_zoom_viewer').css('background-position' , 
-      '-' + ((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) + 'px ' + 
-      '0px');
-      }
-   }
+     if(((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) < 0)
+     {
+       $('#ipv_zoom_viewer').css('background-position' , 
+       '0px ' + 
+       '-' + ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2)) + 'px');
+     }
+     else if(((e.offsetY * ipv_scale) - (ipv_zoom_y / 2)) < 0)
+     {
+       $('#ipv_zoom_viewer').css('background-position' , 
+       '-' + ((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) + 'px ' + 
+       '0px');
+       }
+    }
+   
+
+    main_offset_top = $('#ipv_main').offset().top;
 
     /* 画面端に対応 */
     // 上端なら
     if((e.offsetY - (ipv_zoom_y / 2)) < 20 && e.pageX- (ipv_zoom_x / 2) > 0 )
     {
-      $('#ipv_zoom_viewer').offset({top: 120 , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
+      $('#string').text("上だよー");
+      $('#ipv_zoom_viewer').offset({top: (main_offset_top + 20) , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
     // 下端なら
-    else if((e.pageY > ipv_img_h))
+    else if((e.offsetY > (ipv_img_h - (ipv_zoom_y / 2))) && (e.pageX - (ipv_zoom_x / 2)) > 0)
     {
-      $('#ipv_zoom_viewer').offset({ top: (ipv_img_h - (ipv_zoom_y / 1.5  )) , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
+      $('#string').text("下だよー");
+      $('#ipv_zoom_viewer').offset({ top: (main_offset_top + ipv_img_h - (ipv_zoom_y * ipv_magnification) - 20 ) , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
     // 左端なら
     else if((e.pageX- (ipv_zoom_x / 2)) < 0)
     {
       // 左上の場合
-      if((e.offsetY - (ipv_zoom_y / 2)) < 20)
+      if(e.offsetY - (( ipv_zoom_y / 2) * ipv_magnification) < 20 )
       {
-        $('#ipv_zoom_viewer').offset({ top: 120, left: (20 * ipv_magnification)});
+        $('#string').text("左上");
+        $('#ipv_zoom_viewer').offset({ top: main_offset_top + 20, left: (20 * ipv_magnification)});
+      }
+      // 左下の場合
+      else if(e.offsetY > (ipv_img_h - (ipv_zoom_y / 2)))
+      {
+        $('#string').text("左下");
+        $('#ipv_zoom_viewer').offset({ top: (((main_offset_top + ipv_img_h) - ipv_zoom_y) - 80 * ipv_magnification), left: (20 * ipv_magnification)});
       }
       else
       {
-        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: (20 * ipv_magnification)});
-      }
-    }
-    // 右端なら
-    else if((e.offsetX + (ipv_zoom_x / 2)) > ipv_img_w)
-    {
-      if(ipv_img_w > ipv_img_h)
-      {
-        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification) , left: 'auto', right: (40 * ipv_magnification) });
-      }
-      else
-      {
-        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
+        $('#string').text("左" + (e.offsetY ) + " > " + (ipv_img_h - (ipv_zoom_y / 2)));
+        $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: 20 });
       }
     }
     // 通常処理
     else
     {
+      $('#string').text(e.offsetY + " / " + (e.pageX - (ipv_zoom_x / 2)) );
       $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
   });

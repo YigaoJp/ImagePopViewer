@@ -5,7 +5,7 @@
   --ipv_btn_sp_size: 36px;
   --ipv_zoom_x: 40%;
   --ipv_zoom_y: 40%;
-  --ipv_magnification: 2;
+  --ipv_magnification: 1.2;
 }
 
 body {
@@ -251,11 +251,18 @@ body {
     box-shadow: -5px -5px 10px 0px rgba(255, 255, 255, 0.5), 5px 5px 10px 0px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     z-index: 9900;
-    position: relative;
+    position: absolute;
     pointer-events: none;
     display: none;
   } 
 }
+
+//削除
+#string {
+  position: fixed;
+  left: 0;
+}
+
 
 #main_container {
   width: 800px;
