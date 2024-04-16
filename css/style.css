@@ -240,11 +240,6 @@ body {
   display: none;
 }
 
-#string {
-  position: fixed;
-  left: 0;
-}
-
 #main_container {
   width: 800px;
   border: 1px solid gray;

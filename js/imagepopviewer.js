@@ -256,13 +256,11 @@ $(function(){
     // 上端なら
     if((e.offsetY - (ipv_zoom_y / 2)) < 20 && e.pageX- (ipv_zoom_x / 2) > 0 )
     {
-      $('#string').text("上だよー");
       $('#ipv_zoom_viewer').offset({top: (main_offset_top + 20) , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
     // 下端なら
     else if((e.offsetY > (ipv_img_h - (ipv_zoom_y / 2))) && (e.pageX - (ipv_zoom_x / 2)) > 0)
     {
-      $('#string').text("下だよー");
       $('#ipv_zoom_viewer').offset({ top: (main_offset_top + ipv_img_h - (ipv_zoom_y * ipv_magnification) - 20 ) , left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
     // 左端なら
@@ -271,25 +269,21 @@ $(function(){
       // 左上の場合
       if(e.offsetY - (( ipv_zoom_y / 2) * ipv_magnification) < 20 )
       {
-        $('#string').text("左上");
         $('#ipv_zoom_viewer').offset({ top: main_offset_top + 20, left: (20 * ipv_magnification)});
       }
       // 左下の場合
       else if(e.offsetY > (ipv_img_h - (ipv_zoom_y / 2)))
       {
-        $('#string').text("左下");
         $('#ipv_zoom_viewer').offset({ top: (((main_offset_top + ipv_img_h) - ipv_zoom_y) - 80 * ipv_magnification), left: (20 * ipv_magnification)});
       }
       else
       {
-        $('#string').text("左" + (e.offsetY ) + " > " + (ipv_img_h - (ipv_zoom_y / 2)));
         $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: 20 });
       }
     }
     // 通常処理
     else
     {
-      $('#string').text(e.offsetY + " / " + (e.pageX - (ipv_zoom_x / 2)) );
       $('#ipv_zoom_viewer').offset({ top: (e.pageY - (ipv_zoom_y / 2) * ipv_magnification), left: (e.pageX - (ipv_zoom_x / 2) * ipv_magnification) });
     }
   });
