@@ -211,8 +211,8 @@ $(function(){
     $('#ipv_zoom_viewer').css('transform' , 'scale(' + ipv_magnification + ')');
     
     $('#ipv_zoom_viewer').css('background-position' , 
-    '-' + (ipv_img_original_width - (ipv_zoom_x / 2)) + 'px ' + 
-    '-' + (ipv_img_original_height - (ipv_zoom_y / 2)) + 'px');
+    '-' + (ipv_img_original_width - ipv_zoom_x ) + 'px ' + 
+    '-' + (ipv_img_original_height - ipv_zoom_y ) + 'px');
 
     $('#ipv_zoom_viewer').offset({ top: e.pageY - ((ipv_zoom_y / 2) * ipv_magnification), left: e.pageX - ((ipv_zoom_x / 2 ) * ipv_magnification) }).hide().fadeIn();
   });
