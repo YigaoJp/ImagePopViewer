@@ -234,6 +234,7 @@ body {
       background-repeat: no-repeat;
       background-size: calc(var(--ipv_btn_pc_size) - 18px);
       background-position: center center;
+      transform: rotateY(360deg);
       transition: .5s;
     }
   }
