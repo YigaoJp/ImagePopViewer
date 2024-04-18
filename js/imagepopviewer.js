@@ -203,8 +203,18 @@ $(function(){
     ipv_zoom_x = parseInt($("#ipv_zoom_viewer").css("width"));
     ipv_zoom_y = parseInt($("#ipv_zoom_viewer").css("height"));
 
-    $('#ipv_zoom_viewer').offset({ top: e.pageY - (ipv_zoom_y / 2), left: e.pageX - (ipv_zoom_x / 2 )}).hide().fadeIn();
+    // 下のmousemoveでも使う
+    $('#ipv_temp_img').find('img').attr("src", $("#ipv_main").attr('src'));
+    ipv_img_original_width = $('#ipv_temp_img').find('img')[0].width;
+    ipv_img_original_height = $('#ipv_temp_img').find('img')[0].height;
+    
     $('#ipv_zoom_viewer').css('transform' , 'scale(' + ipv_magnification + ')');
+    
+    $('#ipv_zoom_viewer').css('background-position' , 
+    '-' + (ipv_img_original_width - (ipv_zoom_x / 2)) + 'px ' + 
+    '-' + (ipv_img_original_height - (ipv_zoom_y / 2)) + 'px');
+
+    $('#ipv_zoom_viewer').offset({ top: e.pageY - ((ipv_zoom_y / 2) * ipv_magnification), left: e.pageX - ((ipv_zoom_x / 2 ) * ipv_magnification) }).hide().fadeIn();
   });
 
   $(document).on('mousemove', "#ipv_main", function(e){
@@ -220,13 +230,9 @@ $(function(){
     ipv_img_w = parseInt($(this).css("width"));
     ipv_img_h = parseInt($(this).css("height"));
 
-    $('#ipv_temp_img').find('img').attr("src", $("#ipv_main").attr('src'));
-    ipv_img_original_width = $('#ipv_temp_img').find('img')[0].width;
-    ipv_img_original_height = $('#ipv_temp_img').find('img')[0].height;
-
     ipv_scale = ipv_img_original_width / ipv_img_w;
 
-    // スケールの設定
+    // 拡大する画像の座標
     if(((e.offsetX * ipv_scale) - (ipv_zoom_x / 2)) > 0 && ((e.offsetY * ipv_scale) - (ipv_zoom_y / 2) > 0 )) 
     {
      $('#ipv_zoom_viewer').css('background-position' , 
@@ -365,7 +371,7 @@ function set_main_image_pos_reset() {
 }
 
 function set_close_btn () {
-  var window_w = window.innerWidth;
+  var window_w = $(window).width();
   var window_h = window.innerHeight;
   var close_btn_w = parseInt($('#ipv_close_btn').css('width'));
   var left_pos = ( (window_w / 2) + (parseInt($('#ipv_bg').find('#ipv_main').css('width')) / 2) ) - close_btn_w - 8;
